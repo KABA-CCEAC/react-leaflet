@@ -21,28 +21,28 @@ All components are React wrappers for Leaflet elements and layers, they need a m
 
 **Leaflet example**
 ```js
-import L from "leaflet";
+import L from 'leaflet';
 
 const position = [51.505, -0.09];
-const map = L.map("map").setView(position, 13);
+const map = L.map('map').setView(position, 13);
 
-L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
 L.marker(position).addTo(map)
-  .bindPopup("A pretty CSS3 popup. <br> Easily customizable.");
+  .bindPopup('A pretty CSS3 popup. <br> Easily customizable.');
 ```
 
 **React-Leaflet**
 ```js
-import React from "react";
-import {Map, Marker, Popup, TileLayer} from "react-leaflet";
+import React from 'react';
+import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 
 const position = [51.505, -0.09];
 const map = <Map center={position} zoom={13}>
   <TileLayer
-    url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+    url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
   />
   <Marker position={position}>
@@ -52,7 +52,7 @@ const map = <Map center={position} zoom={13}>
   </Marker>
 </Map>;
 
-React.render(map, document.getElementById("map-container"));
+React.render(map, document.getElementById('map-container'));
 ```
 Note that the `<Map>` component creates its own `<div>` container for the map, it does not get attached to an existing node.
 
@@ -66,6 +66,10 @@ This library uses React components as an interface, but not the virtual DOM, as 
 - Not all layers are implemented and even less tested.
 
 ## API
+
+### Helpers
+
+**setIconDefaultImagePath(path: string)**: Setter for `Leaflet.Icon.Default.imagePath`, set to `//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/images` by default.
 
 ### PropTypes
 
@@ -114,10 +118,12 @@ This is the top-level component that must be mounted for children ones to be ren
 
 **Properties**
 - `center: LatLng` (optional, dynamic): Center of the map. This property is dynamic, if you change it it will be reflected in the map.
+- `className: String` (optional, dynamic): className property of the `<div>` container for the map.
 - `id: String` (optional): The ID of the `<div>` container for the map. If you don't provide it, a unique one will be created.
 - `maxBounds: Bounds` (optional)
 - `maxZoom: Number` (optional)
 - `minZoom: Number` (optional)
+- `style: Object` (optional, dynamic): style property of the `<div>` container for the map.
 - `zoom: Number` (optional, dynamic)
 
 #### UI Layers
@@ -193,36 +199,16 @@ The Popup children will be rendered as its content using `React.renderToStaticMa
 - FeatureGroup
 - GeoJson
 
+## Creating custom components
+
+If you want to create custom components, for example Leaflet plugins, you could extend one of the [base components](https://github.com/PaulLeCam/react-leaflet#base-components) depending on the type of component you want to implement.  
+The created Leaflet map instance is injected by the `Map` component to all its children as the `map` property. Make sure to inject it in your component's children as well.
+
 ## Changelog
 
-### v0.5.0 (02/05/15)
-
-Set `icon`, `zIndexOffset` and `opacity` properties as dynamic on `Marker`.
-
-### v0.4.1 (06/04/15)
-
-- Removed `getLeafletElement()` deprecation.
-- Updated Babel to v5.
-
-### v0.4.0 (28/03/15)
-
-Released v0.4.
-
-### v0.4.0-rc.1 (11/03/15)
-
-React 0.13.0.
-
-### v0.4.0-beta.1 (08/03/15)
-
-- Updated React dependency to 0.13.0-rc2:
-  - Components are defined as ES6 classes.
-  - Mixins are replaced by the base components `MapComponent`, `MapLayer`, `BaseTileLayer` and `PopupContainer`. All components extend from these.
-  - The new [`React.cloneElement()`](https://facebook.github.io/react/blog/2015/03/03/react-v0.13-rc2.html#react.cloneelement) API is used instead of the deprecated `React.addons.cloneWithProps()` to pass the `map` property to the components.
-  - The `map` property has been removed from the components `propTypes` definition as it is dynamically injected to its children by the `Map` component, React would [now warn it is not set](https://facebook.github.io/react/blog/2015/02/24/streamlining-react-elements.html#solution-early-proptype-warnings). It is still required by components to have access to the Leaflet object.
-- Events can now be set as `on{Event}` rather than `onLeaflet{Event}`, ex `onClick` instead of `onLeafletClick`, as all events are proxied to Leaflet.
-- Deprecated `getLeafletElement()` method, simply use the `leafletElement` property instead to access the Leaflet object created for a component.
+See [CHANGELOG](https://github.com/PaulLeCam/react-leaflet/blob/master/CHANGELOG.md) file.
 
 ## License
 
 MIT  
-See LICENSE file.
+See [LICENSE](https://github.com/PaulLeCam/react-leaflet/blob/master/LICENSE) file.
