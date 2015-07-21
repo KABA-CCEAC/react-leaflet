@@ -11,6 +11,7 @@ export default class Polygon extends PopupContainer {
   }
 
   componentDidUpdate(prevProps) {
+    
     if (this.props.positions !== prevProps.positions) {
       this.leafletElement.setLatLngs(this.props.positions);
     }
