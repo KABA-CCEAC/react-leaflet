@@ -17,7 +17,7 @@ export default class Polygon extends PopupContainer {
     if (this.props.fill && (this.props.fillColor!== prevProps.fillColor)) {
       this.leafletElement.setStyle({fillColor:this.props.fillColor})
     }
-    if (this.props.color!== prevProps.color)) {
+    if (this.props.color!== prevProps.color) {
       this.leafletElement.setStyle({color:this.props.color})
     }
 
